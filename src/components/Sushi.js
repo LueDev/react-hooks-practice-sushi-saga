@@ -1,20 +1,36 @@
 import React from "react";
 
 function Sushi(props) {
+
+  const {id, name, img_url, price} = props.item
+
+  const handlePurchase = () => {
+    if(props.wallet >= price){
+      props.setWallet(prevAmount => prevAmount - price)
+      props.setEaten(prevList => [...prevList, id]);
+      console.log(id, name, price)
+    }
+  }
+
+  const isSushiEaten = props.eaten.includes(id)
+  // console.log(id, isSushiEaten)
+  // console.log(props.eaten)
+
   return (
-    <div className="sushi">
-      <div className="plate" onClick={/* Give me a callback! */ null}>
-        {/* Tell me if this sushi has been eaten! */}
-        {false ? null : (
-          <img
-            src={/* Give me an image source! */ null}
-            alt={/* Give me a name! */ "Sushi"}
+    <div className="sushi" >
+      <div className="plate">
+        {isSushiEaten
+         ? null
+         : <img
+            src={img_url}
+            alt={name || "Sushi"}
             width="100%"
+            onClick={() => handlePurchase()}
           />
-        )}
+        }
       </div>
       <h4 className="sushi-details">
-        {/* Give me a name! */} - ${/* Give me a price! */}
+        {name} - ${price}
       </h4>
     </div>
   );
